@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Driver{
 
     private Scanner input = new Scanner(System.in);
-    private Product productArray;
+    private Product productObject;
 
     public static void main(String[] args) {
 		Driver driver = new Driver();
@@ -28,12 +28,12 @@ public class Driver{
     	if ((currentProduct == 'y') || (currentProduct == 'Y'))
     		inCurrentProductLine = true;
     	
-        productArray = new Product(productName, productCode, unitCost, inCurrentProductLine);
+        productObject = new Product(productName, productCode, unitCost, inCurrentProductLine);
     }
     
     //print the product calling toString method
     private void printProduct(){
-    	System.out.println(productArray);
+    	System.out.println(productObject);
     }
 	   	
 }
