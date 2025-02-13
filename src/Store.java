@@ -92,5 +92,25 @@ public class Store {
             }
         }
     }
+//accessor method for arraylist of products
+    public ArrayList<Product> getProducts(){
+        return products;
+    }
+//method that indicates size of array list
+    public int numberOfProducts() {
+        return products.size();
+    }
+//method that checks if number is a valid index in arraylist
+    public boolean isValidIndex(int index) {
+        return (index >= 0) && (index < products.size());
+    }
+//method to delete product, using isValidIndex to ensure the product exists at that index
+    public Product deleteProduct(int indexToDelete) {
+        if (isValidIndex(indexToDelete)) {
+            return products.remove(indexToDelete);
+        }
+        return null;
+    }
+
 
 }

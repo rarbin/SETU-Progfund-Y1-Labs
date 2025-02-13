@@ -1,3 +1,10 @@
+/**
+ * This class runs the application and handles the Product I/O
+ *
+ * @author Mairead Meagher, Siobhan Drohan
+ * @version 3.0
+ *
+ */
 public class Driver{
 
     private Store store = new Store();
@@ -16,16 +23,19 @@ public class Driver{
                ---------
                   1) Add a product
                   2) List the Products
+                  3) Update a Product
+                  4) Delete a Product
                   ----------------------------
-                  3) List the current products
-                  4) Display average product unit cost
-                  5) Display cheapest product
-                  6) List products that are more expensive than a given price
+                  5) List the current products
+                  6) Display average product unit cost
+                  7) Display cheapest product
+                  8) List products that are more expensive than a given price
                   ----------------------------
                   0) Exit
                ==>>  """);
         return option;
     }
+
 
     private void runMenu(){
         int option = mainMenu();
@@ -35,12 +45,14 @@ public class Driver{
             switch (option){
                 case 1 -> addProduct();
                 case 2 -> printProducts();
-                case 3 -> printCurrentProducts();
-                case 4 -> printAverageProductPrice();
-                case 5 -> printCheapestProduct();
-                case 6 -> printProductsAboveAPrice();
+                case 4 -> deleteProduct();
+                case 5 -> printCurrentProducts();
+                case 6 -> printAverageProductPrice();
+                case 7 -> printCheapestProduct();
+                case 8 -> printProductsAboveAPrice();
                 default -> System.out.println("Invalid option entered: " + option);
             }
+
 
             //pause the program so that the user can read what we just printed to the terminal window
             ScannerInput.readNextLine("\nPress enter key to continue...");
@@ -76,6 +88,23 @@ public class Driver{
             System.out.println("No Product Added");
         }
     }
+    //ask the user to enter the index of the object to delete, and assuming it's valid, delete it.
+    private void deleteProduct(){
+        printProducts();
+        if (store.numberOfProducts() > 0){
+            //only ask the user to choose the product to delete if products exist
+            int indexToDelete = ScannerInput.readNextInt("Enter the index of the product to delete ==> ");
+            //pass the index of the product to Store for deleting and check for success.
+            Product productToDelete = store.deleteProduct(indexToDelete);
+            if (productToDelete != null){
+                System.out.println("Delete Successful! Deleted product: " + productToDelete.getProductName());
+            }
+            else{
+                System.out.println("Delete NOT Successful");
+            }
+        }
+    }
+
 
     //print the products stored in the collection
     private void printProducts(){
