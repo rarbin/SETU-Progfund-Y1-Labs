@@ -1,3 +1,4 @@
+package models;
 
 public class Product {
 
@@ -14,7 +15,7 @@ public class Product {
         this.unitCost = unitCost;
         this.inCurrentProductLine = inCurrentProductLine;
     }
-         
+
  //getters to return product name, cost, code and if its in product line or not
     public String getProductName(){
         return productName;
@@ -52,7 +53,7 @@ public class Product {
    //string built, displays user input data
     public String toString()
     {
-        return "Product description: " + productName
+        return "models.models.Product description: " + productName
              + ", product code: " + productCode
              + ", unit cost: " + unitCost
              + ", currently in product line: " + inCurrentProductLine;

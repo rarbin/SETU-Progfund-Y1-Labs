@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.Scanner;
 //class gets rid of scanner bug by creating a new object for each user read,
 //also validates the data to ensure it is correct or doesn't accept it from the user
