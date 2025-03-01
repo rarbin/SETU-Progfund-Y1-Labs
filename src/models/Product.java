@@ -53,7 +53,7 @@ public class Product {
    //string built, displays user input data
     public String toString()
     {
-        return "models.models.Product description: " + productName
+        return "Product description: " + productName
              + ", product code: " + productCode
              + ", unit cost: " + unitCost
              + ", currently in product line: " + inCurrentProductLine;

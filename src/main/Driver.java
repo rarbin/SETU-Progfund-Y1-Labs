@@ -73,8 +73,8 @@ public class Driver{
     //gather the product data from the user and create a new product object - add it to the collection.
     private void addProduct(){
 
-        String productName = ScannerInput.readNextLine("Enter the models.models.Product Name:  ");
-        int productCode = ScannerInput.readNextInt("Enter the models.models.Product Code:  ");
+        String productName = ScannerInput.readNextLine("Enter the Product Name:  ");
+        int productCode = ScannerInput.readNextInt("Enter the Product Code:  ");
         double unitCost = ScannerInput.readNextDouble("Enter the Unit Cost:  ");
 
         //Ask the user to type in either a Y or an N.  This is then
@@ -84,10 +84,10 @@ public class Driver{
 
         boolean isAdded = store.add(new Product(productName, productCode, unitCost, inCurrentProductLine));
         if (isAdded){
-            System.out.println("models.models.Product Added Successfully");
+            System.out.println("Product Added Successfully");
         }
         else{
-            System.out.println("No models.models.Product Added");
+            System.out.println("No Product Added");
         }
     }
 
@@ -123,8 +123,8 @@ public class Driver{
             //only ask the user to choose the product to update if products exist
             int indexToUpdate = ScannerInput.readNextInt("Enter the index of the product to update ==> ");
             if (store.isValidIndex(indexToUpdate)){
-                String productName = ScannerInput.readNextLine("Enter the models.models.Product Name:  ");
-                int productCode = ScannerInput.readNextInt("Enter the models.models.Product Code:  ");
+                String productName = ScannerInput.readNextLine("Enter the Product Name:  ");
+                int productCode = ScannerInput.readNextInt("Enter the Product Code:  ");
                 double unitCost = ScannerInput.readNextDouble("Enter the Unit Cost:  ");
 
                 //Ask the user to type in either a Y or an N.  This is then

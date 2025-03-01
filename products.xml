@@ -1,0 +1,10 @@
+<object-stream>
+  <list>
+    <models.Product>
+      <productName>System.out.print(&quot;Bib&quot;)</productName>
+      <productCode>2</productCode>
+      <unitCost>0.012</unitCost>
+      <inCurrentProductLine>false</inCurrentProductLine>
+    </models.Product>
+  </list>
+</object-stream>
