@@ -14,8 +14,6 @@ import java.util.ArrayList;
 /**
  * The store class saves all the entered products into a primitive ArrayList.
  *
- * @author Mairead Meagher, Siobhan Drohan
- * @version 3.0
  */
 
 public class Store {
@@ -54,7 +52,7 @@ public class Store {
     /**
      * Add the product object, passed as a parameter, to the ArrayList.
      *
-     * @param product models.models.Product object to be added to the ArrayList.
+     * @param product models.Product object to be added to the ArrayList.
      */
     public boolean add (Product product){
         return products.add (product);
@@ -65,7 +63,7 @@ public class Store {
      * Find a product object at a specific index location.
      * If the index location is not valid, return null.
      *
-     * @param index Index of the models.models.Product object in the ArrayList
+     * @param index Index of the models.Product object in the ArrayList
      * @return The product object or null if no object is at the index location
      */
     public Product findProduct(int index) {
@@ -96,9 +94,9 @@ public class Store {
 
 
     /**
-     * Delete a models.models.Product from the ArrayList, if it exists, at the index passed as a parameter.
+     * Delete a models.Product from the ArrayList, if it exists, at the index passed as a parameter.
      *
-     * @param indexToDelete Index of the models.models.Product object in the ArrayList
+     * @param indexToDelete Index of the models.Product object in the ArrayList
      * @return The deleted product object or null if no object is at the index location
      */
     public Product deleteProduct(int indexToDelete) {
@@ -109,23 +107,26 @@ public class Store {
     }
 
     /**
-     * Update a models.models.Product in the ArrayList with the contents passed in the models.models.Product object parameter.
+     * Update a models.Product in the ArrayList with the contents passed in the models.Product object parameter.
      *
-     * @param indexToUpdate Index of the models.models.Product object in the ArrayList
-     * @param updateDetails A models.models.Product object containing the updated details
+     * @param indexToUpdate Index of the models.Product object in the ArrayList
+     * @param productName Name of the product
+     * @param productCode Code of the product
+     * @param unitCost Unit cost of the product
+     * @param inCurrentProductLine boolean indicating if the product is current or not
      * @return The status of the update, True or False
      */
-    public boolean updateProduct(int indexToUpdate, Product updateDetails) {
+    public boolean updateProduct(int indexToUpdate, String productName, int productCode, double unitCost, boolean inCurrentProductLine) {
         //find the product object by the index number
         Product foundProduct = findProduct(indexToUpdate);
 
         //if the product exists, use the details passed in the updateDetails parameter to
         //update the found product in the ArrayList.
         if (foundProduct != null) {
-            foundProduct.setProductName(updateDetails.getProductName());
-            foundProduct.setProductCode(updateDetails.getProductCode());
-            foundProduct.setUnitCost(updateDetails.getUnitCost());
-            foundProduct.setInCurrentProductLine(updateDetails.isInCurrentProductLine());
+            foundProduct.setProductName(productName);
+            foundProduct.setProductCode(productCode);
+            foundProduct.setUnitCost(unitCost);
+            foundProduct.setInCurrentProductLine(inCurrentProductLine);
             return true;
         }
 
@@ -137,7 +138,7 @@ public class Store {
      * This method returns the cheapest product in the ArrayList.
      * If no products are stored in the ArrayList, null is returned.
      *
-     * @return The cheapest models.models.Product in the ArrayList or null, if no products are added yet.
+     * @return The cheapest models.Product in the ArrayList or null, if no products are added yet.
      */
     public Product cheapestProduct() {
         if (!products.isEmpty()) {

@@ -5,6 +5,11 @@ import models.Product;
 import utils.ScannerInput;
 import utils.Utilities;
 
+/**
+ * This class runs the application and handles the Product I/O
+ *
+ *
+ */
 public class Driver{
 
     private Store store = new Store();
@@ -133,7 +138,7 @@ public class Driver{
                 boolean inCurrentProductLine = Utilities.YNtoBoolean(currentProduct);
 
                 //pass the index of the product and the new product details to controllers.Store for updating and check for success.
-                if (store.updateProduct(indexToUpdate, new Product(productName, productCode, unitCost, inCurrentProductLine))){
+                if (store.updateProduct(indexToUpdate, productName, productCode, unitCost, inCurrentProductLine)){
                     System.out.println("Update Successful");
                 }
                 else{
