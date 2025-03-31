@@ -2,10 +2,7 @@ package controllers;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import models.EventPost;
-import models.MessagePost;
-import models.PhotoPost;
-import models.Post;
+import models.*;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -189,6 +186,25 @@ public class NewsFeed {
         return number;
     }
 
+    public void likeAPost(int index) {
+        Post post = null;
+        if (isValidIndex(index)) {
+            post = posts.get(index);
+            if ((post instanceof LikedPost)){
+                ((LikedPost) post).likeAPost();
+            }
+        }
+    }
+
+    public void unLikeAPost(int index) {
+        Post post = null;
+        if (isValidIndex(index)) {
+            post = posts.get(index);
+            if ((post instanceof LikedPost)){
+                ((LikedPost) post).unlikeAPost();
+            }
+        }
+    }
     /**
      * The load method uses the XStream component to read all the models.MessagePost objects from the posts.xml
      * file stored on the hard disk.  The read objects are loaded into the posts ArrayList

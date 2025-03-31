@@ -22,15 +22,16 @@ public class Driver {
     private int mainMenu(){
         return ScannerInput.readNextInt("""
                Social Network Menu
-                  ---------------------
+                  -----------------------
                   1) Add a Post
                   2) Update a Post
                   3) Delete a Post
                   4) List Posts
-                  ---------------------
-                  5) Save Posts
-                  6) Load Posts
-                  ---------------------
+                  5) Like / Unlike Posts
+                  -----------------------
+                  6) Save Posts
+                  7) Load Posts
+                  -----------------------
                   0) Exit
                ==>>  """);
     }
@@ -45,8 +46,9 @@ public class Driver {
                 case 2 -> updatePost();
                 case 3 -> deletePost();
                 case 4 -> viewPosts();
-                case 5 -> savePosts();
-                case 6 -> loadPosts();
+                case 5 -> likeUnlikePosts();
+                case 6 -> savePosts();
+                case 7 -> loadPosts();
                 default -> System.out.println("Invalid option entered: " + option);
             }
 
@@ -257,8 +259,43 @@ public class Driver {
         System.out.println(newsFeed.showEventPosts());
     }
 
+    //------------------------------------------------------------------------------------------
+    //  Option 5 - Like / Unlike Posts - the user is asked if it is a message or a photo post
+    //             and the required details are then gathered before adding the specific object
+    //------------------------------------------------------------------------------------------
+    private void likeUnlikePosts(){
+
+        int likeOption = ScannerInput.readNextInt("""
+                    ---------------------------
+                    | Do you want to...       |
+                    |   1) Like A post        |
+                    |   2) Unlike a post      |
+                    ---------------------------
+                    ==>> """);
+
+        switch (likeOption) {
+            case 1 -> {
+                showMessagePosts();
+                showPhotoPosts();
+                int index = ScannerInput.readNextInt("Enter the index of the post ==> ");
+                newsFeed.likeAPost(index);
+                System.out.println(newsFeed.findPost(index).display());
+            }
+            case 2 -> {
+                showMessagePosts();
+                showPhotoPosts();
+                int index = ScannerInput.readNextInt("Enter the index of the post ==> ");
+                newsFeed.unLikeAPost(index);
+                System.out.println(newsFeed.findPost(index).display());
+            }
+            default -> System.out.println("Invalid option entered: " + likeOption);
+        }
+
+    }
+
+
     //---------------------------------------------------------------------
-    //  Options 5 and 6 - Save and Load Posts
+    //  Options 6 and 7 - Save and Load Posts
     //---------------------------------------------------------------------
 
     //save all the posts in the newsFeed to a file on the hard disk
