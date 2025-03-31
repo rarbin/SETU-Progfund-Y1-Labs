@@ -1,6 +1,7 @@
 package main;
 
 import controllers.NewsFeed;
+import models.EventPost;
 import models.MessagePost;
 import models.PhotoPost;
 import models.Post;
@@ -74,6 +75,7 @@ public class Driver {
                     ---------------------------
                     |   1) Add a Message Post |
                     |   2) Add a Photo Post   |
+                    |   3) Add an Event Post  |
                     ---------------------------
                     ==>> """);
 
@@ -88,6 +90,12 @@ public class Driver {
                 String caption = ScannerInput.readNextLine("Enter the Caption:  ");
                 String filename = ScannerInput.readNextLine("Enter the Filename:  ");
                 isAdded = newsFeed.addPost(new PhotoPost(authorName, caption, filename));
+            }
+            case 3 -> {
+                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
+                String eventName = ScannerInput.readNextLine("Enter the Event Name:  ");
+                double eventCost = ScannerInput.readNextDouble("Enter the Event Cost:  ");
+                isAdded = newsFeed.addPost(new EventPost(authorName, eventName, eventCost));
             }
             default -> System.out.println("Invalid option entered: " + option);
         }
@@ -114,6 +122,7 @@ public class Driver {
                     ---------------------------
                     |   1) Update a Message Post |
                     |   2) Update a Photo Post   |
+                    |   3) Update an Event Post  |
                     ---------------------------
                     ==>> """);
 
@@ -143,6 +152,20 @@ public class Driver {
                             String caption = ScannerInput.readNextLine("Enter the Caption:  ");
                             String filename = ScannerInput.readNextLine("Enter the Filename:  ");
                             isUpdated = newsFeed.updatePhotoPost(photoIndex, author, caption, filename);
+                        }
+                    }
+                }
+                case 3 -> {
+                    //ask the user to enter the index of the object to update, and assuming it's valid and is a PhotoPost,
+                    //gather the new data from the user and update the selected object.
+                    showEventPosts();
+                    if (newsFeed.numberOfEventPosts() > 0) {
+                        int eventIndex = ScannerInput.readNextInt("Enter the index of the event post to update ==> ");
+                        if (newsFeed.isValidEventPostIndex(eventIndex)) {
+                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
+                            String eventName = ScannerInput.readNextLine("Enter the Event Name:  ");
+                            double eventCost = ScannerInput.readNextDouble("Enter the Event Cost:  ");
+                            isUpdated = newsFeed.updateEventPost(eventIndex, author, eventName, eventCost);
                         }
                     }
                 }
@@ -193,6 +216,7 @@ public class Driver {
                     |   1) View ALL Posts     |
                     |   2) View Message Posts |
                     |   3) View Photo Posts   |
+                    |   4) View Event Posts   |
                     ---------------------------
                     ==>>  """);
 
@@ -200,6 +224,7 @@ public class Driver {
                 case 1 -> showPosts();
                 case 2 -> showMessagePosts();
                 case 3 -> showPhotoPosts();
+                case 4 -> showEventPosts();
                 default -> System.out.println("Invalid option entered: " + option);
             }
         }
@@ -224,6 +249,12 @@ public class Driver {
     private void showPhotoPosts(){
         System.out.println("List of Photo Posts are:");
         System.out.println(newsFeed.showPhotoPosts());
+    }
+
+    //print the photo posts in newsfeed i.e. array list.
+    private void showEventPosts(){
+        System.out.println("List of Event Posts are:");
+        System.out.println(newsFeed.showEventPosts());
     }
 
     //---------------------------------------------------------------------

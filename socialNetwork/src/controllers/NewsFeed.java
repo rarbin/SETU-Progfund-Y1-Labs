@@ -2,6 +2,7 @@ package controllers;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import models.EventPost;
 import models.MessagePost;
 import models.PhotoPost;
 import models.Post;
@@ -73,6 +74,23 @@ public class NewsFeed {
         }
     }
 
+    public String showEventPosts() {
+        String str = "";
+
+        for(Post post: posts) {
+            if (post instanceof EventPost) {
+                str += posts.indexOf(post) + ": " + post.display() + "\n";
+            }
+        }
+
+        if (str.isEmpty()){
+            return "No Event Posts";
+        }
+        else {
+            return str;
+        }
+    }
+
     public Post deletePost(int indexToDelete) {
         if (isValidIndex(indexToDelete)) {
             return posts.remove(indexToDelete);
@@ -113,6 +131,23 @@ public class NewsFeed {
         return false;
     }
 
+    public boolean updateEventPost(int indexToUpdate, String author, String eventName, double eventCost) {
+        //find the object by the index number
+        Post foundPost = findPost(indexToUpdate);
+
+        //if the object exists, use the details passed in the parameters to
+        //update the found object in the ArrayList.
+        if ((foundPost != null) && (foundPost instanceof EventPost)){
+            foundPost.setAuthor(author);
+            ((EventPost) foundPost).setEventName(eventName);
+            ((EventPost) foundPost).setEventCost(eventCost);
+            return true;
+        }
+
+        //if the object was not found, return false, indicating that the update was not successful
+        return false;
+    }
+
     public Post findPost(int index) {
         if (isValidIndex(index)) {
             return posts.get(index);
@@ -143,6 +178,17 @@ public class NewsFeed {
         }
         return number;
     }
+
+    public int numberOfEventPosts() {
+        int number = 0;
+        for (Post post: posts){
+            if (post instanceof EventPost){
+                number++;
+            }
+        }
+        return number;
+    }
+
     /**
      * The load method uses the XStream component to read all the models.MessagePost objects from the posts.xml
      * file stored on the hard disk.  The read objects are loaded into the posts ArrayList
@@ -152,7 +198,7 @@ public class NewsFeed {
     @SuppressWarnings("unchecked")
     public void load() throws Exception {
         //list of classes that you wish to include in the serialisation, separated by a comma
-        Class<?>[] classes = new Class[] { MessagePost.class, PhotoPost.class, Post.class};
+        Class<?>[] classes = new Class[] { EventPost.class, MessagePost.class, PhotoPost.class, Post.class};
 
         //setting up the xstream object with default security and the above classes
         XStream xstream = new XStream(new DomDriver());
@@ -197,5 +243,11 @@ public class NewsFeed {
         return false;
     }
 
+    public boolean isValidEventPostIndex(int index) {
+        if (isValidIndex(index)) {
+            return (posts.get(index)) instanceof EventPost;
+        }
+        return false;
+    }
 
 }

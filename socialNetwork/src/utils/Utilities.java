@@ -32,4 +32,16 @@ public class Utilities {
         return strToCheck.length() <= maxLength;
     }
 
+    /**
+     * This method returns true if the numberToCheck is between min and max (both inclusive)
+     *
+     * @param numberToCheck The number whose range is being checked.
+     * @param min The minimum range number to check against (inclusive)
+     * @param max The maximum range number to check against (inclusive)
+     * @return Returns true if the numberToCheck is between min and max (both inclusive), false otherwise.
+     */
+    public static boolean validRange(double numberToCheck, double min, double max) {
+        return ((numberToCheck >= min) && (numberToCheck <= max));
+    }
+
 }
