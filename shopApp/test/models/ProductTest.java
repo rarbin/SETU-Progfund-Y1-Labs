@@ -30,6 +30,7 @@ class ProductTest {
 
     @Nested
     class Getters {
+
         @Test
         void getProductName() {
             assertEquals("Television 42Inches", productBelow.getProductName());

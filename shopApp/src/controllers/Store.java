@@ -14,6 +14,8 @@ import java.util.ArrayList;
 /**
  * The store class saves all the entered products into a primitive ArrayList.
  *
+ * @author Mairead Meagher, Siobhan Drohan
+ * @version 3.0
  */
 
 public class Store {
@@ -27,7 +29,6 @@ public class Store {
     public ArrayList<Product> getProducts() {
         return products;
     }
-
 
     /**
      * This method returns the number of product objects stored in the ArrayList.

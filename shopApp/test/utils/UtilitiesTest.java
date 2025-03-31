@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UtilitiesTest {
 
     @Test
-    void booleanYNConversionReturnsCorrectResult() {
+    void booleanYNConversionReturnsCorrectResult(){
         assertEquals('Y', Utilities.booleanToYN(true));
         assertEquals('N', Utilities.booleanToYN(false));
     }
@@ -22,24 +22,24 @@ class UtilitiesTest {
     }
 
     @Test
-    void validRangeWorksWithPositiveTestData() {
+    void validRangeWorksWithPositiveTestData(){
         assertTrue(Utilities.validRange(1, 1, 1));
         assertTrue(Utilities.validRange(1, 1, 2));
         assertTrue(Utilities.validRange(1, 0, 1));
-        assertTrue(Utilities.validRange(1, 0, 2));
-        assertTrue(Utilities.validRange(-1, -2, -1));
+        assertTrue(Utilities.validRange(1, 0, 2)) ;
+        assertTrue(Utilities.validRange(-1, -2, -1)) ;
     }
 
     @Test
-    void validRangeWorksWithNegativeTestData() {
-        assertFalse(Utilities.validRange(1, 0, 0));
-        assertFalse(Utilities.validRange(1, 1, 0));
-        assertFalse(Utilities.validRange(1, 2, 1));
-        assertFalse(Utilities.validRange(-1, -1, -2));
+    void validRangeWorksWithNegativeTestData(){
+        assertFalse(Utilities.validRange(1,0,0));
+        assertFalse(Utilities.validRange(1,1,0));
+        assertFalse(Utilities.validRange(1,2,1));
+        assertFalse(Utilities.validRange(-1, -1, -2)) ;
     }
 
     @Test
-    void toTwoDecimalPlacesTruncatesCorrectly() {
+    void toTwoDecimalPlacesTruncatesCorrectly(){
         assertEquals(12, Utilities.toTwoDecimalPlaces(12), 0.01);
         assertEquals(12.9, Utilities.toTwoDecimalPlaces(12.9), 0.01);
         assertEquals(12.00, Utilities.toTwoDecimalPlaces(12.00123456), 0.01);
@@ -47,7 +47,7 @@ class UtilitiesTest {
     }
 
     @Test
-    void truncateStringMethodTrucatesCorrectly() {
+    void truncateStringMethodTrucatesCorrectly(){
         assertEquals("123456789", Utilities.truncateString("1234567890", 9));
         assertEquals("1234567890", Utilities.truncateString("1234567890", 10));
         assertEquals("1234567890", Utilities.truncateString("1234567890", 11));

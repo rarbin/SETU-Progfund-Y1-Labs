@@ -3,9 +3,8 @@ package controllers;
 import models.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
-
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +28,6 @@ class StoreTest {
         storeWithProducts.add(productBelow);
         storeWithProducts.add(productExact);
         storeWithProducts.add(productAbove);
-        storeWithProducts.add(productZero);
     }
 
     @AfterEach
@@ -39,13 +37,13 @@ class StoreTest {
     }
 
     @Nested
-    class CRUD {
+    class ArrayListCRUD{
         @Test
         void addingToAnArrayListThatHasProductsIsSuccessful() {
-            assertEquals(4, storeWithProducts.numberOfProducts());
+            assertEquals(3, storeWithProducts.numberOfProducts());
             assertTrue(storeWithProducts.add(productZero));
-            assertEquals(5, storeWithProducts.numberOfProducts());
-            assertEquals(productZero, storeWithProducts.findProduct(4));
+            assertEquals(4, storeWithProducts.numberOfProducts());
+            assertEquals(productZero, storeWithProducts.findProduct(3));
         }
 
         @Test
@@ -56,17 +54,6 @@ class StoreTest {
             assertEquals(productZero, storeEmpty.findProduct(0));
         }
 
-
-        @Test
-        void listProductsReturnsProductsWhenArrayListHasProductsStored() {
-            assertEquals(4, storeWithProducts.numberOfProducts());
-            String productsString = storeWithProducts.listProducts();
-            assertTrue(productsString.contains("Television 42Inches"));
-            assertTrue(productsString.contains("Television 50 Inches"));
-            assertTrue(productsString.contains("Television 60 Inches"));
-            assertTrue(productsString.contains(""));
-        }
-
         @Test
         void listProductsReturnsNoProductsStoredWhenArrayListIsEmpty() {
             assertEquals(0, storeEmpty.numberOfProducts());
@@ -74,21 +61,17 @@ class StoreTest {
         }
 
         @Test
-        void deletingAProductThatExistsDeletesAndReturnsDeletedObject() {
-            assertEquals(4, storeWithProducts.numberOfProducts());
-            assertEquals(productAbove, storeWithProducts.deleteProduct(2));
+        void listProductsReturnsProductsWhenArrayListHasProductsStored() {
             assertEquals(3, storeWithProducts.numberOfProducts());
+            String productsString = storeWithProducts.listProducts();
+            assertTrue(productsString.contains("Television 42Inches"));
+            assertTrue(productsString.contains("Television 50 Inches"));
+            assertTrue(productsString.contains("Television 60 Inches"));
         }
 
-        @Test
-        void deletingAProductThatDoesNotExistReturnsNull() {
-            assertNull(storeEmpty.deleteProduct(0));
-            assertNull(storeWithProducts.deleteProduct(-1));
-            assertNull(storeWithProducts.deleteProduct(4));
-        }
 
         @Test
-        void updatingANoteThatExistsReturnsTrueAndUpdates() {
+        void updatingANoteThatExistsReturnsTrueAndUpdates(){
             //check product index 2 exists and check the contents
             assertEquals(productAbove, storeWithProducts.findProduct(2));
             assertEquals("Television 60 Inches", storeWithProducts.findProduct(2).getProductName());
@@ -105,28 +88,45 @@ class StoreTest {
         }
 
         @Test
-        void updatingAProductThatDoesNotExistReturnsFalse() {
-            assertFalse(storeWithProducts.updateProduct(4, "Updating Product", 2, 19.99, false));
+        void updatingAProductThatDoesNotExistReturnsFalse(){
+            assertFalse(storeWithProducts.updateProduct(3, "Updating Product", 2, 19.99, false));
             assertFalse(storeWithProducts.updateProduct(-1, "Updating Product", 1002, 14.49, true));
             assertFalse(storeEmpty.updateProduct(0, "Updating Product", 1003, 199.99, false));
         }
-    }
-@Nested
-class FindAndSearch {
-    @Test
-    void findProductReturnsProductWhenIndexIsValid() {
-        assertEquals(4, storeWithProducts.numberOfProducts());
-        assertEquals(productBelow, storeWithProducts.findProduct(0));
-        assertEquals(productAbove, storeWithProducts.findProduct(2));
+
+        @Test
+        void deletingAProductThatDoesNotExistReturnsNull(){
+            assertNull(storeEmpty.deleteProduct(0));
+            assertNull(storeWithProducts.deleteProduct(-1));
+            assertNull(storeWithProducts.deleteProduct(3));
+        }
+
+        @Test
+        void deletingAProductThatExistsDeletesAndReturnsDeletedObject(){
+            assertEquals(3, storeWithProducts.numberOfProducts());
+            assertEquals(productAbove, storeWithProducts.deleteProduct(2));
+            assertEquals(2, storeWithProducts.numberOfProducts());
+        }
+
     }
 
-    @Test
-    void findProductReturnsNullWhenIndexIsInValid() {
-        assertEquals(0, storeEmpty.numberOfProducts());
-        assertNull(storeEmpty.findProduct(0));
-        assertEquals(4, storeWithProducts.numberOfProducts());
-        assertNull(storeWithProducts.findProduct(-1));
-        assertNull(storeWithProducts.findProduct(4));
+    @Nested
+    class FindAndSearch {
+        @Test
+        void findProductReturnsProductWhenIndexIsValid() {
+            assertEquals(3, storeWithProducts.numberOfProducts());
+            assertEquals(productBelow, storeWithProducts.findProduct(0));
+            assertEquals(productAbove, storeWithProducts.findProduct(2));
+        }
+
+        @Test
+        void findProductReturnsNullWhenIndexIsInValid() {
+            assertEquals(0, storeEmpty.numberOfProducts());
+            assertNull(storeEmpty.findProduct(0));
+            assertEquals(3, storeWithProducts.numberOfProducts());
+            assertNull(storeWithProducts.findProduct(-1));
+            assertNull(storeWithProducts.findProduct(3));
+        }
     }
-}
+
 }

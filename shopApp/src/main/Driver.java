@@ -2,12 +2,15 @@ package main;
 
 import controllers.Store;
 import models.Product;
+import utils.LanguageUtility;
 import utils.ScannerInput;
 import utils.Utilities;
 
 /**
  * This class runs the application and handles the Product I/O
  *
+ * @author Mairead Meagher, Siobhan Drohan
+ * @version 3.0
  *
  */
 public class Driver{
@@ -27,18 +30,26 @@ public class Driver{
                 ------------------------------------------------------------------
                 |                            Shop Menu                           |
                 ------------------------------------------------------------------
+                | PRODUCT MENU                                                   | 
                 |   1) Add a product                                             |
                 |   2) List the Products                                         |
                 |   3) Update a product                                          | 
                 |   4) Delete a product                                          | 
                 ------------------------------------------------------------------
-                |   5) List the current products                                 |
-                |   6) Display average product unit cost                         |
-                |   7) Display cheapest product                                  |
-                |   8) List products that are more expensive than a given price  |
+                | PRODUCT DESCRIPTION MENU                                       | 
+                |   5) Add a product description                                 |
+                |   6) List product description(s)                               |
+                |   7) Update a product description                              | 
+                |   8) Delete a product description                              | 
                 ------------------------------------------------------------------
-                |   9)  Save products to products.xml                            |  
-                |   10) Load products from products.xml                          |  
+                | REPORT MENU                                                    | 
+                |   10) List the current products                                |
+                |   11) Display average product unit cost                        |
+                |   12) Display cheapest product                                 |
+                |   13) List products that are more expensive than a given price |
+                ------------------------------------------------------------------
+                |   20)  Save products to products.xml                           |  
+                |   21) Load products from products.xml                          |  
                 |   0)  Exit                                                     |  
                 ------------------------------------------------------------------
                 ==>>  """);
@@ -54,12 +65,16 @@ public class Driver{
                 case 2 -> printProducts();
                 case 3 -> updateProduct();
                 case 4 -> deleteProduct();
-                case 5 -> printCurrentProducts();
-                case 6 -> printAverageProductPrice();
-                case 7 -> printCheapestProduct();
-                case 8 -> printProductsAboveAPrice();
-                case 9 -> saveProducts();
-                case 10 -> loadProducts();
+                case 5 -> addDescriptionToProduct();
+                case 6 -> listProductDescriptions();
+                case 7 -> updateDescriptionInProduct();
+                case 8 -> deleteDescriptionFromProduct();
+                case 10 -> printCurrentProducts();
+                case 11 -> printAverageProductPrice();
+                case 12 -> printCheapestProduct();
+                case 13 -> printProductsAboveAPrice();
+                case 20 -> saveProducts();
+                case 21 -> loadProducts();
                 default -> System.out.println("Invalid option entered: " + option);
             }
 
@@ -95,7 +110,7 @@ public class Driver{
             System.out.println("No Product Added");
         }
     }
-
+    
     //print the products stored in the collection
     private void printProducts(){
         System.out.println("List of Products are:");
@@ -151,6 +166,70 @@ public class Driver{
         }
     }
 
+    //------------------------------------
+    //PRODUCT DESCRIPTION MENU
+    //------------------------------------
+    private void addDescriptionToProduct() {
+        Product product = askUserToSelectProduct();
+        if (product != null){
+            String language = readValidLanguage();
+            String description = ScannerInput.readNextLine("\t Description: ");
+            if (product.addDescription(language, description))
+                System.out.println("Add Successful!");
+            else
+                System.out.println("Add NOT Successful");
+        }
+    }
+
+    private void listProductDescriptions(){
+        Product product = askUserToSelectProduct();
+        if (product != null) {
+            System.out.println(product.listDescriptions());
+        }
+    }
+
+    private void updateDescriptionInProduct() {
+        Product product = askUserToSelectProduct();
+        if (product != null) {
+            System.out.println(product.listDescriptions());
+            if (product.numberOfDescriptions() > 0) {
+                //ask user to enter a language.
+                String language = readValidLanguage();
+                if (product.isAlreadyAddedLanguage(language)) {
+                    //if language has been added -> ask for new desc and update it.
+                    String newDesc = ScannerInput.readNextLine("Enter a new description: ");
+                    if (product.updateDescription(language, newDesc)) {
+                        System.out.println("Description updated");
+                    } else {
+                        System.out.println("Description NOT updated");
+                    }
+                } else {
+                    // if language hasn't been added -> update not successful
+                    System.out.println("No descriptions for this language");
+                }
+            }
+        }
+    }
+
+    private void deleteDescriptionFromProduct() {
+        Product product = askUserToSelectProduct();
+        if (product != null) {
+            System.out.println(product.listDescriptions());
+            if (product.numberOfDescriptions() > 0) {
+                String language = readValidLanguage();
+                if (product.deleteDescription(language) != null) {
+                    System.out.println("Description deleted");
+                } else {
+                    System.out.println("Description not found");
+                }
+            }
+        }
+    }
+
+    //------------------------------------
+    //DISPLAYING / REPORTING
+    //------------------------------------
+
     //print out a list of all current products i.e. that are in the current product line.
     private void printCurrentProducts(){
         System.out.println("List of CURRENT Products are:");
@@ -185,6 +264,10 @@ public class Driver{
         System.out.println(store.listProductsAboveAPrice(price));
     }
 
+   //------------------------------------
+    // PERSISTENCE METHODS
+    // ------------------------------------
+
     //save all the products in the store to a file on the hard disk
     private void saveProducts() {
         try {
@@ -201,6 +284,34 @@ public class Driver{
         } catch (Exception e) {
             System.err.println("Error reading from file: " + e);
         }
+    }
+
+    //------------------------------------
+    // HELPER METHODS
+    // ------------------------------------
+    private Product askUserToSelectProduct(){
+        printProducts();
+        if (store.numberOfProducts() > 0) {
+            Product product = store.findProduct(ScannerInput.readNextInt("Enter the index of the product: "));
+            if (product != null) {
+                return product;
+            }
+            else{
+                System.out.println("Product index is not valid");
+            }
+        }
+        return null;
+    }
+
+    private String readValidLanguage() {
+        do {
+            String language = ScannerInput.readNextLine("Enter the language " + LanguageUtility.getLanguages() + ": ");
+            if (LanguageUtility.isValidLanguage(language)) {
+                return language.toUpperCase();  //return as an uppercase so that it makes hashmap processing easier
+            } else {
+                System.err.println("\tLanguage not valid.");
+            }
+        } while (true);
     }
 
 }
