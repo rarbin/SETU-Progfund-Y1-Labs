@@ -2,13 +2,15 @@ package models;
 
 import utils.Utilities;
 
-public class Post {
+public abstract class Post {
 
     private String author = "";
 
     public Post(String author) {
         this.author = Utilities.truncateString(author, 10);
     }
+
+    public abstract String displayCondensed();
 
     public String getAuthor() {
         return author;
@@ -23,4 +25,5 @@ public class Post {
     public String display() {
         return (author + "\n");
     }
+
 }

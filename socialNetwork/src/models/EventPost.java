@@ -13,6 +13,11 @@ public class EventPost extends Post {
         setEventCost(eventCost);
     }
 
+    @Override
+    public String displayCondensed() {
+        return super.getAuthor() + ": Event(" + eventName + ", €" + eventCost + ")";
+    }
+
     public String getEventName() {
         return eventName;
     }

@@ -1,11 +1,21 @@
 package models;
 
-public class LikedPost extends Post {
+public abstract class LikedPost extends Post {
 
     private int likes = 0;
 
     public LikedPost(String author){
         super(author);
+    }
+
+    @Override
+    public String displayCondensed() {
+        if(likes > 0) {
+            return super.getAuthor() + " (" + likes + " likes) ";
+        }
+        else {
+            return super.getAuthor() + " (0 likes) ";
+        }
     }
 
     public int getLikes() {

@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b647cd3a-aae6-4da7-9b05-4f6b95262c8c" name="Changes" comment="-Add socialNetwork V6.0&#10;-Add post type Event post&#10;-Update driver to support event post">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/libraries/xstream_1_4_17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/libraries/xstream_1_4_17.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/runConfigurations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/SocialNetworkV6.0.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/posts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/posts.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/controllers/NewsFeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/controllers/NewsFeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/main/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/main/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/models/EventPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/models/EventPost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/models/MessagePost.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/models/MessagePost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/models/PhotoPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/models/PhotoPost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/models/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/models/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/utils/ScannerInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/utils/ScannerInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/src/utils/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/src/utils/Utilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialNetwork/tests/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialNetwork/tests/Test.java" afterDir="false" />
-    </list>
+    <list default="true" id="b647cd3a-aae6-4da7-9b05-4f6b95262c8c" name="Changes" comment="-Add socialNetwork V7.0&#10;-Add post type likedPost&#10;-Update driver and newsfeed to accommodate for method" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -103,7 +84,7 @@
       <workItem from="1741622527707" duration="13000" />
       <workItem from="1741622552170" duration="145000" />
       <workItem from="1741622700788" duration="1165000" />
-      <workItem from="1743426372819" duration="3301000" />
+      <workItem from="1743426372819" duration="3642000" />
     </task>
     <task id="LOCAL-00001" summary="&#10;shopApp:&#10;-Update Shop to V7.0&#10;-Add multiple languages for product descriptions based on hash">
       <option name="closed" value="true" />
@@ -137,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743433440235</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-Add socialNetwork V7.0&#10;-Add post type likedPost&#10;-Update driver and newsfeed to accommodate for method">
+      <option name="closed" value="true" />
+      <created>1743434118203</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743434118203</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +137,7 @@
     <MESSAGE value="-Add socialNetwork V4.0" />
     <MESSAGE value="-Add socialNetwork V5.0" />
     <MESSAGE value="-Add socialNetwork V6.0&#10;-Add post type Event post&#10;-Update driver to support event post" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Add socialNetwork V6.0&#10;-Add post type Event post&#10;-Update driver to support event post" />
+    <MESSAGE value="-Add socialNetwork V7.0&#10;-Add post type likedPost&#10;-Update driver and newsfeed to accommodate for method" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Add socialNetwork V7.0&#10;-Add post type likedPost&#10;-Update driver and newsfeed to accommodate for method" />
   </component>
 </project>

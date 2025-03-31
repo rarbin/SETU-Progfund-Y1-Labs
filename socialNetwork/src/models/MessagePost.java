@@ -11,6 +11,11 @@ public class MessagePost extends LikedPost{
         this.message = Utilities.truncateString(message, 40);
     }
 
+    @Override
+    public String displayCondensed() {
+        return super.displayCondensed() + ": Message(" + message +  ")";
+    }
+
     public String getMessage() {
         return message;
     }

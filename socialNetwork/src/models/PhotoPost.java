@@ -13,6 +13,11 @@ public class PhotoPost extends LikedPost{
         this.filename = Utilities.truncateString(filename, 40);
     }
 
+    @Override
+    public String displayCondensed() {
+        return super.displayCondensed() + ": Photo(" + caption +  ", " + filename + ")";
+    }
+
     public String getCaption() {
         return caption;
     }
