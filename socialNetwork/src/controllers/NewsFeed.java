@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import models.MessagePost;
 import models.PhotoPost;
+import models.Post;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,31 +14,21 @@ import java.util.ArrayList;
 
 public class NewsFeed {
 
-    private ArrayList<MessagePost> messagePosts;
-    private ArrayList<PhotoPost> photoPosts;
+    private ArrayList<Post> posts;
 
     public NewsFeed() {
-        messagePosts = new ArrayList<MessagePost>();
-        photoPosts = new ArrayList<PhotoPost>();
+        posts = new ArrayList<Post>();
     }
 
-    public boolean addMessagePost(MessagePost messagePost) {
-        return messagePosts.add(messagePost);
-    }
-
-    public boolean addPhotoPost(PhotoPost photoPost) {
-        return photoPosts.add(photoPost);
+    public boolean addPost(Post post) {
+        return posts.add(post);
     }
 
     public String show() {
         String str = "";
 
-        for(MessagePost messagePost : messagePosts) {
-            str += messagePosts.indexOf(messagePost) + ": " + messagePost.display() + "\n";
-        }
-
-        for(PhotoPost photoPost : photoPosts) {
-            str += photoPosts.indexOf(photoPost) + ": " + photoPost.display() + "\n";
+        for(Post post: posts) {
+            str += posts.indexOf(post) + ": " + post.display() + "\n";
         }
 
         if (str.isEmpty()){
@@ -51,8 +42,10 @@ public class NewsFeed {
     public String showPhotoPosts() {
         String str = "";
 
-        for(PhotoPost photoPost : photoPosts) {
-            str += photoPosts.indexOf(photoPost) + ": " + photoPost.display() + "\n";
+        for(Post post: posts) {
+            if (post instanceof PhotoPost) {
+                str += posts.indexOf(post) + ": " + post.display() + "\n";
+            }
         }
 
         if (str.isEmpty()){
@@ -66,8 +59,10 @@ public class NewsFeed {
     public String showMessagePosts() {
         String str = "";
 
-        for(MessagePost messagePost : messagePosts) {
-            str += messagePosts.indexOf(messagePost) + ": " + messagePost.display() + "\n";
+        for(Post post: posts) {
+            if (post instanceof MessagePost) {
+                str += posts.indexOf(post) + ": " + post.display() + "\n";
+            }
         }
 
         if (str.isEmpty()){
@@ -78,29 +73,22 @@ public class NewsFeed {
         }
     }
 
-    public MessagePost deleteMessagePost(int indexToDelete) {
-        if (isValidMessagePostIndex(indexToDelete)) {
-            return messagePosts.remove(indexToDelete);
-        }
-        return null;
-    }
-
-    public PhotoPost deletePhotoPost(int indexToDelete) {
-        if (isValidPhotoPostIndex(indexToDelete)) {
-            return photoPosts.remove(indexToDelete);
+    public Post deletePost(int indexToDelete) {
+        if (isValidIndex(indexToDelete)) {
+            return posts.remove(indexToDelete);
         }
         return null;
     }
 
     public boolean updateMessagePost(int indexToUpdate, String author, String message) {
         //find the object by the index number
-        MessagePost foundMessage = findMessagePost(indexToUpdate);
+        Post foundMessage = findPost(indexToUpdate);
 
         //if the object exists, use the details passed in the parameters to
         //update the found object in the ArrayList.
-        if (foundMessage != null) {
+        if ((foundMessage != null) && (foundMessage instanceof MessagePost)) {
             foundMessage.setAuthor(author);
-            foundMessage.setMessage(message);
+            ((MessagePost) foundMessage).setMessage(message);
             return true;
         }
 
@@ -110,14 +98,14 @@ public class NewsFeed {
 
     public boolean updatePhotoPost(int indexToUpdate, String author, String caption, String filename) {
         //find the object by the index number
-        PhotoPost foundPost = findPhotoPost(indexToUpdate);
+        Post foundPost = findPost(indexToUpdate);
 
         //if the object exists, use the details passed in the parameters to
         //update the found object in the ArrayList.
-        if (foundPost != null) {
+        if ((foundPost != null) && (foundPost instanceof PhotoPost)){
             foundPost.setAuthor(author);
-            foundPost.setCaption(caption);
-            foundPost.setFilename(filename);
+            ((PhotoPost) foundPost).setCaption(caption);
+            ((PhotoPost) foundPost).setFilename(filename);
             return true;
         }
 
@@ -125,28 +113,36 @@ public class NewsFeed {
         return false;
     }
 
-    public MessagePost findMessagePost(int index) {
-        if (isValidMessagePostIndex(index)) {
-            return messagePosts.get(index);
+    public Post findPost(int index) {
+        if (isValidIndex(index)) {
+            return posts.get(index);
         }
         return null;
     }
 
-    public PhotoPost findPhotoPost(int index) {
-        if (isValidPhotoPostIndex(index)) {
-            return photoPosts.get(index);
-        }
-        return null;
+    public int numberOfPosts() {
+        return posts.size();
     }
 
     public int numberOfMessagePosts() {
-        return messagePosts.size();
+        int number = 0;
+        for (Post post: posts){
+            if (post instanceof MessagePost){
+                number++;
+            }
+        }
+        return number;
     }
 
     public int numberOfPhotoPosts() {
-        return photoPosts.size();
+        int number = 0;
+        for (Post post: posts){
+            if (post instanceof PhotoPost){
+                number++;
+            }
+        }
+        return number;
     }
-
     /**
      * The load method uses the XStream component to read all the models.MessagePost objects from the posts.xml
      * file stored on the hard disk.  The read objects are loaded into the posts ArrayList
@@ -156,7 +152,7 @@ public class NewsFeed {
     @SuppressWarnings("unchecked")
     public void load() throws Exception {
         //list of classes that you wish to include in the serialisation, separated by a comma
-        Class<?>[] classes = new Class[] { MessagePost.class, PhotoPost.class};
+        Class<?>[] classes = new Class[] { MessagePost.class, PhotoPost.class, Post.class};
 
         //setting up the xstream object with default security and the above classes
         XStream xstream = new XStream(new DomDriver());
@@ -164,13 +160,9 @@ public class NewsFeed {
         xstream.allowTypes(classes);
 
         //doing the actual serialisation to an XML file
-        ObjectInputStream inMessages = xstream.createObjectInputStream(new FileReader("messagePosts.xml"));
-        messagePosts = (ArrayList<MessagePost>) inMessages.readObject();
-        inMessages.close();
-
-        ObjectInputStream inPhotos = xstream.createObjectInputStream(new FileReader("photoPosts.xml"));
-        photoPosts = (ArrayList<PhotoPost>) inPhotos.readObject();
-        inPhotos.close();
+        ObjectInputStream in = xstream.createObjectInputStream(new FileReader("posts.xml"));
+        posts = (ArrayList<Post>) in.readObject();
+        in.close();
     }
 
     /**
@@ -181,20 +173,29 @@ public class NewsFeed {
      */
     public void save() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectOutputStream outMessages = xstream.createObjectOutputStream(new FileWriter("messagePosts.xml"));
-        outMessages.writeObject(messagePosts);
-        outMessages.close();
-        ObjectOutputStream outPosts = xstream.createObjectOutputStream(new FileWriter("photoPosts.xml"));
-        outPosts.writeObject(photoPosts);
-        outPosts.close();
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("posts.xml"));
+        out.writeObject(posts);
+        out.close();
+
+    }
+
+    public boolean isValidIndex(int index) {
+        return (index >= 0) && (index < posts.size());
     }
 
     public boolean isValidMessagePostIndex(int index) {
-        return (index >= 0) && (index < messagePosts.size());
+        if (isValidIndex(index)) {
+            return (posts.get(index)) instanceof MessagePost;
+        }
+        return false;
     }
 
     public boolean isValidPhotoPostIndex(int index) {
-        return (index >= 0) && (index < photoPosts.size());
+        if (isValidIndex(index)) {
+            return (posts.get(index)) instanceof PhotoPost;
+        }
+        return false;
     }
+
 
 }

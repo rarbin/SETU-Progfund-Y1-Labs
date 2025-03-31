@@ -3,6 +3,7 @@ package main;
 import controllers.NewsFeed;
 import models.MessagePost;
 import models.PhotoPost;
+import models.Post;
 import utils.ScannerInput;
 
 public class Driver {
@@ -21,18 +22,13 @@ public class Driver {
         return ScannerInput.readNextInt("""
                Social Network Menu
                   ---------------------
-                  1) Add a Message Post
-                  2) Update a Message Post
-                  3) Delete a Message Post
+                  1) Add a Post
+                  2) Update a Post
+                  3) Delete a Post
+                  4) List Posts
                   ---------------------
-                  4) Add a Photo Post
-                  5) Update a Photo Post
-                  6) Delete a Photo Post
-                  ---------------------
-                  7) List all Posts
-                  ---------------------
-                  8) Save Posts
-                  9) Load Posts
+                  5) Save Posts
+                  6) Load Posts
                   ---------------------
                   0) Exit
                ==>>  """);
@@ -44,15 +40,12 @@ public class Driver {
         while (option != 0){
 
             switch (option){
-                case 1 -> addMessagePost();
-                case 2 -> updateMessagePost();
-                case 3 -> deleteMessagePost();
-                case 4 -> addPhotoPost();
-                case 5 -> updatePhotoPost();
-                case 6 -> deletePhotoPost();
-                case 7 -> showPosts();
-                case 8 -> savePosts();
-                case 9 -> loadPosts();
+                case 1 -> addPost();
+                case 2 -> updatePost();
+                case 3 -> deletePost();
+                case 4 -> viewPosts();
+                case 5 -> savePosts();
+                case 6 -> loadPosts();
                 default -> System.out.println("Invalid option entered: " + option);
             }
 
@@ -68,113 +61,119 @@ public class Driver {
         System.exit(0);
     }
 
-    //gather the message post data from the user and add the new message post object to the arraylist
-    private void addMessagePost(){
 
-        String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
-        String message = ScannerInput.readNextLine("Enter the Message:  ");
+    //------------------------------------------------------------------------------------------
+    //  Option 1 - Add Posts - the user is asked if it is a message or a photo post
+    //             and the required details are then gathered before adding the specific object
+    //------------------------------------------------------------------------------------------
+    private void addPost(){
 
-        boolean isAdded = newsFeed.addMessagePost(new MessagePost(authorName, message));
-        if (isAdded){
-            System.out.println("Post Added Successfully");
-        }
-        else{
-            System.out.println("No Post Added");
-        }
-    }
+        boolean isAdded = false;
 
-    //ask the user to enter the index of the object to update, and assuming it's valid,
-    //gather the new data from the user and update the selected object.
-    private void updateMessagePost(){
-        newsFeed.showMessagePosts();
-        if (newsFeed.numberOfMessagePosts() > 0){
-            //only ask the user to choose the object to update if objects exist
-            int indexToUpdate = ScannerInput.readNextInt("Enter the index of the message to update ==> ");
-            if (newsFeed.isValidMessagePostIndex(indexToUpdate)){
-                String author = ScannerInput.readNextLine("Enter the Author Name:  ");
+        int option = ScannerInput.readNextInt("""
+                    ---------------------------
+                    |   1) Add a Message Post |
+                    |   2) Add a Photo Post   |
+                    ---------------------------
+                    ==>> """);
+
+        switch (option) {
+            case 1 -> {
+                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
                 String message = ScannerInput.readNextLine("Enter the Message:  ");
-
-                //pass the index of the product and the new product details to Store for updating and check for success.
-                if (newsFeed.updateMessagePost(indexToUpdate, author, message)){
-                    System.out.println("Update Successful");
-                }
-                else{
-                    System.out.println("Update NOT Successful");
-                }
+                isAdded = newsFeed.addPost(new MessagePost(authorName, message));
             }
-            else{
-                System.out.println("There are no messages for this index number");
-            }
-        }
-    }
-
-    private void deleteMessagePost(){
-        showMessagePosts();
-        if (newsFeed.numberOfMessagePosts() > 0){
-            //only ask the user to choose the message post to delete if posts exist
-            int indexToDelete = ScannerInput.readNextInt("Enter the index of the messgae post to delete ==> ");
-            //pass the index of the message post to controllers.NewsFeed for deleting and check for success.
-            MessagePost messagePostToDelete = newsFeed.deleteMessagePost(indexToDelete);
-            if (messagePostToDelete != null){
-                System.out.println("Delete Successful! Deleted message post: " + messagePostToDelete.display());
-            }
-            else{
-                System.out.println("Delete NOT Successful");
-            }
-        }
-    }
-
-    //gather the photo post data from the user and add the new photo post object to the arraylist
-    private void addPhotoPost(){
-
-        String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
-        String caption = ScannerInput.readNextLine("Enter the Caption:  ");
-        String filename = ScannerInput.readNextLine("Enter the Filename:  ");
-
-        boolean isAdded = newsFeed.addPhotoPost(new PhotoPost(authorName, caption, filename));
-        if (isAdded){
-            System.out.println("Post Added Successfully");
-        }
-        else{
-            System.out.println("No Post Added");
-        }
-    }
-
-    //ask the user to enter the index of the object to update, and assuming it's valid,
-    //gather the new data from the user and update the selected object.
-    private void updatePhotoPost(){
-        showPhotoPosts();
-        if (newsFeed.numberOfPhotoPosts() > 0){
-            //only ask the user to choose the object to update if objects exist
-            int indexToUpdate = ScannerInput.readNextInt("Enter the index of the photo post to update ==> ");
-            if (newsFeed.isValidPhotoPostIndex(indexToUpdate)){
-                String author = ScannerInput.readNextLine("Enter the Author Name:  ");
+            case 2 -> {
+                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
                 String caption = ScannerInput.readNextLine("Enter the Caption:  ");
                 String filename = ScannerInput.readNextLine("Enter the Filename:  ");
+                isAdded = newsFeed.addPost(new PhotoPost(authorName, caption, filename));
+            }
+            default -> System.out.println("Invalid option entered: " + option);
+        }
 
-                //pass the index of the object and the new details for updating and check for success.
-                if (newsFeed.updatePhotoPost(indexToUpdate, author, caption, filename)){
-                    System.out.println("Update Successful");
-                }
-                else{
-                    System.out.println("Update NOT Successful");
-                }
-            }
-            else{
-                System.out.println("There are no messages for this index number");
-            }
+        if (isAdded){
+            System.out.println("Post Added Successfully");
+        }
+        else{
+            System.out.println("No Post Added");
         }
     }
 
-    private void deletePhotoPost(){
-        showPhotoPosts();
-        if (newsFeed.numberOfPhotoPosts() > 0){
-            //only ask the user to choose the post to delete if posts exist
-            int indexToDelete = ScannerInput.readNextInt("Enter the index of the photo post to delete ==> ");
-            //pass the index of the  post to NewsFeed for deleting and check for success.
-           PhotoPost photoPostToDelete = newsFeed.deletePhotoPost(indexToDelete);
-            if (photoPostToDelete != null){
-                System.out.println("Delete Successful! Deleted photo post: " + photoPostToDelete.display());
+
+    //------------------------------------------------------------------------------------------
+    //  Option 2 - Update Posts - if posts exist, the user is asked if it is a message or a photo post
+    //             and the required details are then gathered before adding the specific object
+    //------------------------------------------------------------------------------------------
+    private void updatePost() {
+
+        if (newsFeed.numberOfPosts() > 0) {
+            boolean isUpdated = false;
+
+            int option = ScannerInput.readNextInt("""
+                    ---------------------------
+                    |   1) Update a Message Post |
+                    |   2) Update a Photo Post   |
+                    ---------------------------
+                    ==>> """);
+
+            switch (option) {
+                case 1 -> {
+                    //ask the user to enter the index of the object to update, and assuming it's valid and is a MessagePost,
+                    //gather the new data from the user and update the selected object.
+                    showMessagePosts();
+                    if (newsFeed.numberOfMessagePosts() > 0) {
+                        int messageIndex = ScannerInput.readNextInt("Enter the index of the message to update ==> ");
+                        if (newsFeed.isValidMessagePostIndex(messageIndex)) {
+                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
+                            String message = ScannerInput.readNextLine("Enter the Message:  ");
+                            //pass the index of the product and the new product details to Store for updating and check for success.
+                            isUpdated = newsFeed.updateMessagePost(messageIndex, author, message);
+                        }
+                    }
+                }
+                case 2 -> {
+                    //ask the user to enter the index of the object to update, and assuming it's valid and is a PhotoPost,
+                    //gather the new data from the user and update the selected object.
+                    showPhotoPosts();
+                    if (newsFeed.numberOfPhotoPosts() > 0) {
+                        int photoIndex = ScannerInput.readNextInt("Enter the index of the photo post to update ==> ");
+                        if (newsFeed.isValidPhotoPostIndex(photoIndex)) {
+                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
+                            String caption = ScannerInput.readNextLine("Enter the Caption:  ");
+                            String filename = ScannerInput.readNextLine("Enter the Filename:  ");
+                            isUpdated = newsFeed.updatePhotoPost(photoIndex, author, caption, filename);
+                        }
+                    }
+                }
+                default -> System.out.println("Invalid option entered: " + option);
+            }
+
+            if (isUpdated) {
+                System.out.println("Post Updated Successfully");
+            } else {
+                System.out.println("No Post Updated");
+            }
+        }
+        else{
+                System.out.println("No posts added yet");
+            }
+    }
+
+
+    //------------------------------------------------------------------------------------------
+    //  Option 3 - Delete Posts - if posts exist, print all posts and ask the user to input the index
+    //             of the post they wish to delete.
+    //------------------------------------------------------------------------------------------
+    private void deletePost(){
+        showPosts();
+        if (newsFeed.numberOfPosts() > 0){
+            //only ask the user to choose the message post to delete if posts exist
+            int indexToDelete = ScannerInput.readNextInt("Enter the index of the post to delete ==> ");
+            //pass the index of the message post to NewsFeed for deleting and check for success.
+            Post postToDelete = newsFeed.deletePost(indexToDelete);
+            if (postToDelete != null){
+                System.out.println("Delete Successful! Deleted post: " + postToDelete.display());
             }
             else{
                 System.out.println("Delete NOT Successful");
@@ -182,7 +181,34 @@ public class Driver {
         }
     }
 
-    //print the posts in newsfeed i.e. array list.
+    //---------------------------------------------------------------------
+    //  Option 4 - List Posts
+    //---------------------------------------------------------------------
+
+    //The user is asked if they want to view all posts, or just the messages or photos ones.
+    private void viewPosts() {
+        if (newsFeed.numberOfPosts() > 0) {
+            int option = ScannerInput.readNextInt("""
+                    ---------------------------
+                    |   1) View ALL Posts     |
+                    |   2) View Message Posts |
+                    |   3) View Photo Posts   |
+                    ---------------------------
+                    ==>>  """);
+
+            switch (option) {
+                case 1 -> showPosts();
+                case 2 -> showMessagePosts();
+                case 3 -> showPhotoPosts();
+                default -> System.out.println("Invalid option entered: " + option);
+            }
+        }
+        else{
+            System.out.println("Option Invalid - No posts stored");
+        }
+    }
+
+    //print all the posts in newsfeed i.e. array list.
     private void showPosts(){
         System.out.println("List of All Posts are:");
         System.out.println(newsFeed.show());
@@ -199,6 +225,10 @@ public class Driver {
         System.out.println("List of Photo Posts are:");
         System.out.println(newsFeed.showPhotoPosts());
     }
+
+    //---------------------------------------------------------------------
+    //  Options 5 and 6 - Save and Load Posts
+    //---------------------------------------------------------------------
 
     //save all the posts in the newsFeed to a file on the hard disk
     private void savePosts() {
